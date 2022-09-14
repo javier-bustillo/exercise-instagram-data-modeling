@@ -27,6 +27,7 @@ class Post(Base):
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
     comments = relationship('Comment', backref='post', lazy=True)
+    tagmaps = relationship('Tagmap', backref='post', lazy=True)
 
     def to_dict(self):
         return {}
@@ -44,6 +45,22 @@ class Comment(Base):
 
     def to_dict(self):
         return {}
+
+
+class Tagmap(Base):
+    __tablename__ = 'tagmap'
+    id = Column(Integer, primary_key=True)
+    post_id = Column(Integer, ForeignKey('post.id'), nullable=False)
+    post = relationship(Post)
+
+    def to_dict(self):
+        return {}
+
+
+class Tag(Base):
+    __tablename__ = 'tag'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(20), nullable=False)
 
 
 # Draw from SQLAlchemy base
