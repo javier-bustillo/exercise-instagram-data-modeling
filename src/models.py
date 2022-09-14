@@ -47,20 +47,26 @@ class Comment(Base):
         return {}
 
 
-class Tagmap(Base):
-    __tablename__ = 'tagmap'
+class Tag(Base):
+    __tablename__ = 'tag'
     id = Column(Integer, primary_key=True)
-    post_id = Column(Integer, ForeignKey('post.id'), nullable=False)
-    post = relationship(Post)
+    name = Column(String(20), nullable=False)
+    tagmaps = relationship('Tagmap', backref='tag', lazy=True)
 
     def to_dict(self):
         return {}
 
 
-class Tag(Base):
-    __tablename__ = 'tag'
+class Tagmap(Base):
+    __tablename__ = 'tagmap'
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False)
+    post_id = Column(Integer, ForeignKey('post.id'), nullable=False)
+    post = relationship(Post)
+    tag_id = Column(Integer, ForeignKey('tag.id'), nullable=False)
+    tag = relationship(Tag)
+
+    def to_dict(self):
+        return {}
 
 
 # Draw from SQLAlchemy base
